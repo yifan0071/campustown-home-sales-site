@@ -1,31 +1,213 @@
 <!DOCTYPE html>
-<!-- A placeholder from the Home Sales template. Replace this file with your site's first page. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Under construction</title>
-  <!-- An empty icon, so the browser doesn't log an error looking for favicon.ico -->
+  <title>College-town home sales</title>
   <link rel="icon" href="data:,">
   <style>
-    :root { color-scheme: light dark; }
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --text: #1b1f24;
+      --muted: #5a6470;
+      --line: #d9dee5;
+      --bar: #2f6f9f;
+      --head: #f3f5f8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #14171b;
+        --text: #e8ecf0;
+        --muted: #9aa5b1;
+        --line: #2c333b;
+        --bar: #5aa0d0;
+        --head: #1d2227;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #14171b;
+      --text: #e8ecf0;
+      --muted: #9aa5b1;
+      --line: #2c333b;
+      --bar: #5aa0d0;
+      --head: #1d2227;
+    }
     body {
-      max-width: 40rem;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 60rem;
       margin: 0 auto;
-      padding: 3rem 1rem;
+      padding: 2rem 1rem 3rem;
       font-family: system-ui, sans-serif;
       line-height: 1.5;
     }
-    footer { margin-top: 3rem; font-size: 0.875rem; opacity: 0.75; }
+    h1 { font-size: 1.75rem; margin: 0 0 0.25rem; }
+    h2 { font-size: 1.25rem; margin: 2.25rem 0 0.5rem; }
+    .note { font-size: 0.8rem; color: var(--muted); margin: 0.25rem 0 0.75rem; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td { text-align: right; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    th { background: var(--head); font-weight: 600; }
+    th:first-child, td:first-child { text-align: left; }
+    .bar-cell { width: 40%; text-align: left; }
+    .bar { height: 0.9rem; background: var(--bar); border-radius: 2px; min-width: 2px; }
+    footer { margin-top: 3rem; font-size: 0.8rem; color: var(--muted); }
+    ul.notes { padding-left: 1.2rem; font-size: 0.9rem; }
+    ul.notes li { margin-bottom: 0.35rem; }
+    .error { color: #b00020; }
   </style>
 </head>
 <body>
   <main>
-    <h1>This site is under construction</h1>
-    <p>It will show findings from the College-town home sales dataset.</p>
+    <h1>What homes sold for in college towns</h1>
+    <p class="note" id="range"></p>
+
+    <h2>Towns compared</h2>
+    <p class="note">Medians of completed sales. Sorted by number of sales. Days to contract counts from the listing date to the signed contract.</p>
+    <div class="table-wrap">
+      <table id="cities">
+        <thead>
+          <tr>
+            <th>Town</th>
+            <th>Sales</th>
+            <th>Median price</th>
+            <th>Median price per sq ft</th>
+            <th>Median days to contract</th>
+            <th>Sales with no listing date</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2>Distance from campus</h2>
+    <p class="note">Straight-line distance from each home to its nearest campus landmark.</p>
+    <div class="table-wrap">
+      <table id="distance">
+        <thead>
+          <tr>
+            <th>Distance</th>
+            <th>Sales</th>
+            <th>Median price</th>
+            <th>Median price (bar)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2>How these numbers were made</h2>
+    <ul class="notes" id="notes"></ul>
   </main>
+
   <footer>
     <p>Data: College-town home sales dataset, version 1.0 (2026). University of Illinois-Deloitte Foundation Center for Business Emerging Technologies. Data collected March 2026.</p>
   </footer>
+
+  <script>
+    (function () {
+      var DATA_CITIES = "data/city_summary.json";
+      var DATA_DISTANCE = "data/distance_summary.json";
+
+      function money(n) {
+        return n === null || n === undefined ? "–" : "$" + Math.round(n).toLocaleString("en-US");
+      }
+      function num(n) {
+        return n === null || n === undefined ? "–" : Math.round(n).toLocaleString("en-US");
+      }
+      function pct(n) {
+        return n === null || n === undefined ? "–" : n.toFixed(1) + "%";
+      }
+      function cell(text, className) {
+        var td = document.createElement("td");
+        if (className) td.className = className;
+        td.textContent = text;
+        return td;
+      }
+      function showError(id, message) {
+        var el = document.getElementById(id);
+        el.textContent = message;
+        el.className = "error";
+      }
+
+      function renderCities(data) {
+        var body = document.querySelector("#cities tbody");
+        data.cities.forEach(function (c) {
+          var tr = document.createElement("tr");
+          tr.appendChild(cell(c.city + ", " + c.state));
+          tr.appendChild(cell(num(c.sales)));
+          tr.appendChild(cell(money(c.median_price)));
+          tr.appendChild(cell(money(c.median_price_per_sqft)));
+          tr.appendChild(cell(num(c.median_days_on_market)));
+          tr.appendChild(cell(pct(c.share_without_list_date_pct)));
+          body.appendChild(tr);
+        });
+      }
+
+      function renderDistance(data) {
+        var body = document.querySelector("#distance tbody");
+        var max = 0;
+        data.bands.forEach(function (b) {
+          if (b.median_price && b.median_price > max) max = b.median_price;
+        });
+        data.bands.forEach(function (b) {
+          var tr = document.createElement("tr");
+          tr.appendChild(cell(b.label));
+          tr.appendChild(cell(num(b.sales)));
+          tr.appendChild(cell(money(b.median_price)));
+          var barCell = cell("", "bar-cell");
+          var bar = document.createElement("div");
+          bar.className = "bar";
+          bar.style.width = b.median_price ? (100 * b.median_price / max).toFixed(1) + "%" : "0";
+          barCell.appendChild(bar);
+          tr.appendChild(barCell);
+          body.appendChild(tr);
+        });
+      }
+
+      function renderNotes(cityData) {
+        var r = cityData.rules;
+        var t = cityData.totals;
+        var range = cityData.sale_date_range;
+        document.getElementById("range").textContent =
+          "Completed sales from " + range[0] + " to " + range[1] + ", " +
+          num(t.rows_used) + " sales used out of " + num(t.rows_in_source) + " in the source file.";
+
+        var items = [
+          "Sales priced below " + money(r.price_min) + " or above " + money(r.price_max) + " were left out (" +
+            num(t.rows_excluded_by_price) + " sales). Such values are treated as likely data errors or outliers.",
+          "Price per square foot uses only sales with a living area above zero.",
+          "Days to contract is the time from the listing date to the contract date. Sales with a missing date are not counted in that figure.",
+          "All headline figures are medians, which are less affected by a few very high or very low prices than averages would be.",
+          "Figures come from the sale records as reported by the data source. They are not checked against county records, and the assessed value is not used as a price.",
+          "This page describes past sales. It is not an appraisal or investment advice."
+        ];
+        var list = document.getElementById("notes");
+        items.forEach(function (text) {
+          var li = document.createElement("li");
+          li.textContent = text;
+          list.appendChild(li);
+        });
+      }
+
+      function loadJSON(url) {
+        return fetch(url).then(function (res) {
+          if (!res.ok) throw new Error(url + " returned " + res.status);
+          return res.json();
+        });
+      }
+
+      Promise.all([loadJSON(DATA_CITIES), loadJSON(DATA_DISTANCE)])
+        .then(function (results) {
+          renderCities(results[0]);
+          renderDistance(results[1]);
+          renderNotes(results[0]);
+        })
+        .catch(function (err) {
+          showError("range", "The data could not be loaded. " + err.message);
+        });
+    })();
+  </script>
 </body>
 </html>

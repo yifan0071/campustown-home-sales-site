@@ -1,0 +1,41 @@
+{
+  "source": "data/college_town_home_sales.csv",
+  "rules": {
+    "price_min": 10000,
+    "price_max": 5000000,
+    "price_per_sqft_needs_area_above": 0,
+    "days_on_market": "contract_date minus list_date, both present, not negative"
+  },
+  "bands": [
+    {
+      "label": "0–1 mi",
+      "sales": 1484,
+      "median_price": 479000.0
+    },
+    {
+      "label": "1–2 mi",
+      "sales": 5342,
+      "median_price": 427500.0
+    },
+    {
+      "label": "2–3 mi",
+      "sales": 7536,
+      "median_price": 380000.0
+    },
+    {
+      "label": "3–5 mi",
+      "sales": 11209,
+      "median_price": 375000.0
+    },
+    {
+      "label": "5–10 mi",
+      "sales": 9555,
+      "median_price": 442500.0
+    },
+    {
+      "label": "10+ mi",
+      "sales": 245,
+      "median_price": 575000.0
+    }
+  ]
+}
