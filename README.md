@@ -1,46 +1,40 @@
-# [Your site's title]
-
-## Start here (delete this section before you submit)
-
-This repository is your starting point for the Home Sales case. It already holds the dataset, its description sheet, project instructions for your AI coding agent, and outlines of the README and agent log that the case asks for.
-
-1. **Turn on GitHub Pages.** In this repository, open **Settings**, then **Pages**. Under "Build and deployment," set **Source** to **GitHub Actions**. GitHub may suggest workflows to add. Skip them: this repository already has one, `.github/workflows/pages.yml`.
-2. **Publish for the first time.** Open the **Actions** tab, choose **Publish site to GitHub Pages** in the sidebar, click **Run workflow**, then click **Run workflow** again to confirm. If the tab already shows a failed run from when you created the repository, that's expected: Pages wasn't turned on yet. When the new run shows a green check, your site is at `https://your-username.github.io/your-repo-name/`. It shows a placeholder page until you replace `index.html`.
-
-    From then on, every push to the main branch publishes the site within a few minutes. If the live site doesn't show a change, open the **Actions** tab. A red X means the publish failed, and the run's log says why.
-3. **Open the repository in your AI coding agent.** Its project instructions are in `AGENTS.md`. If your agent reads its instructions from a file with a different name, check its documentation and copy `AGENTS.md` to that name. Add to the instructions as you learn what your agent needs.
-4. **Read `docs/data_description_sheet.md`** before you ask the agent for any analysis.
-5. **Build in small steps,** as the setup guide describes. Add an entry to `AGENT_LOG.md` each time you work with the agent.
-6. **Fill in every section below** before you submit.
-
-| Path | What it is |
-|---|---|
-| `index.html` | A placeholder page. Replace it with your site. |
-| `data/college_town_home_sales.csv` | The dataset, version 1.0: 35,442 rows. Your site reads this file. |
-| `data/college_town_home_sales.xlsx`, `.sqlite`, `.duckdb`, `.parquet` | The same data in Excel, SQLite, DuckDB and Parquet formats, with identical values |
-| `docs/data_description_sheet.md` | What every column means, and five problems in the data |
-| `AGENTS.md` | Project instructions for your AI coding agent |
-| `AGENT_LOG.md` | Your agent log |
-| `scripts/` | Scripts that make smaller data files for the site |
-| `.github/workflows/pages.yml` | Publishes the site to GitHub Pages each time you push to main. It publishes your files as they are. If you switch to a framework that needs a build step, have your agent update it. |
-
-Don't edit any of the five dataset files. Your site needs only the CSV file. The other formats make it easier to check numbers a second way, for example with a pivot table in Excel or a SQL query on the SQLite file. In SQLite and DuckDB, the table is named `home_sales`.
+# College-town home sales
 
 ## What this site is for
 
-_Replace this line with your site's question and audience, or a short description of the site._
+A reference for people comparing homes in college towns. It shows completed home sales from March 2023 to March 2026 in 18 towns around 11 universities, so a reader can compare typical prices, price per square foot, time to contract, and how price changes with distance from campus. It describes past sales only. It is not an appraisal or investment advice.
 
 ## Live site
 
-https://your-username.github.io/your-repo-name/
+https://yifan0071.github.io/campustown-home-sales-site/
 
 ## Data notes
 
-_Replace this line. Say which rows you left out and why, and how each figure on the site is defined. "Five things that will bite you" in the description sheet lists the problems to cover._
+**Source.** `data/college_town_home_sales.csv`, version 1.0, collected March 2026. Sales run from 2023-03-27 to 2026-03-25.
+
+**Rows left out.** A sale is used only if its price is between $10,000 and $5,000,000. Sales outside that range are treated as likely data errors or outliers and are not counted. The count of excluded sales is shown on the site. Nothing else is removed.
+
+**How each figure is defined.**
+- *Sales*: the number of sales used for that town (after the price rule).
+- *Median price*: the middle sale price, rounded to the whole dollar.
+- *Median price per sq ft*: sale price divided by `living_area_sqft`, using only sales where that area is above zero.
+- *Median days to contract*: `contract_date` minus `list_date`, for sales where both dates are present. This is the time from listing to signed contract, not to closing.
+- *Sales with no listing date*: the share of a town's sales where `list_date` is blank. Those sales are left out of the days-to-contract figure.
+- *Distance bands*: `miles_to_campus` (straight-line distance) grouped into bands. Medians are taken within each band.
+
+**Known limits.**
+- Prices are from completed sales in the source, not verified against county records.
+- `tax_assessed_value` is not used as a price.
+- Towns with few sales (for example Pittsboro, Newberry and Carrboro) have wide swings, and the sample size is shown next to each figure.
+- Some addresses appear more than once because they are separate condo units. Records are counted by `listing_id`, so these units are not merged.
+
+**How the figures were made.** `scripts/make_city_summary.py` reads the CSV and writes `data/city_summary.json` and `data/distance_summary.json`. Run it from the repository root with `python3 scripts/make_city_summary.py`. It needs only Python 3. The page reads the two JSON files.
 
 ## Tools we used
 
-_Replace this line with your AI coding agent or agents, and any libraries and other tools you used._
+- **AI coding agent:** Claude Code (Anthropic), working in this repository through its own branch and pull requests.
+- **Libraries:** none. The page is plain HTML, CSS and JavaScript. The summary script uses only the Python standard library.
+- **Checks:** figures were cross-checked against the SQLite file with a read-only query.
 
 ## Citation
 
@@ -48,4 +42,4 @@ College-town home sales dataset, version 1.0 (2026). University of Illinois-Delo
 
 ## Who did what
 
-_For teams: replace this line with each member's name and what they did. If you worked alone, delete this section._
+_Replace this line with each member's name and what they did. If you worked alone, delete this section._

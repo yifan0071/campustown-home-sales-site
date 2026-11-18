@@ -1,0 +1,238 @@
+{
+  "source": "data/college_town_home_sales.csv",
+  "sale_date_range": [
+    "2023-03-27",
+    "2026-03-25"
+  ],
+  "rules": {
+    "price_min": 10000,
+    "price_max": 5000000,
+    "price_per_sqft_needs_area_above": 0,
+    "days_on_market": "contract_date minus list_date, both present, not negative"
+  },
+  "totals": {
+    "rows_in_source": 35442,
+    "rows_excluded_by_price": 71,
+    "rows_used": 35371,
+    "median_price": 410000.0,
+    "rows_with_negative_days_on_market_excluded": 0
+  },
+  "cities": [
+    {
+      "city": "Gainesville",
+      "state": "FL",
+      "university": "University of Florida",
+      "sales": 5467,
+      "median_price": 350000.0,
+      "median_price_per_sqft": 204.0,
+      "sales_with_price_per_sqft": 5461,
+      "median_days_on_market": 25.0,
+      "sales_with_days_on_market": 4372,
+      "share_without_list_date_pct": 18.7
+    },
+    {
+      "city": "Madison",
+      "state": "WI",
+      "university": "University of Wisconsin-Madison",
+      "sales": 5061,
+      "median_price": 421000.0,
+      "median_price_per_sqft": 248.0,
+      "sales_with_price_per_sqft": 5060,
+      "median_days_on_market": 7.0,
+      "sales_with_days_on_market": 4068,
+      "share_without_list_date_pct": 19.3
+    },
+    {
+      "city": "Lafayette",
+      "state": "IN",
+      "university": "Purdue University",
+      "sales": 3053,
+      "median_price": 260000.0,
+      "median_price_per_sqft": 163.0,
+      "sales_with_price_per_sqft": 3052,
+      "median_days_on_market": 9,
+      "sales_with_days_on_market": 2603,
+      "share_without_list_date_pct": 4.9
+    },
+    {
+      "city": "Ann Arbor",
+      "state": "MI",
+      "university": "University of Michigan",
+      "sales": 3007,
+      "median_price": 572000.0,
+      "median_price_per_sqft": 259.0,
+      "sales_with_price_per_sqft": 2998,
+      "median_days_on_market": 7.0,
+      "sales_with_days_on_market": 2448,
+      "share_without_list_date_pct": 16.8
+    },
+    {
+      "city": "Athens",
+      "state": "GA",
+      "university": "University of Georgia",
+      "sales": 2805,
+      "median_price": 370000.0,
+      "median_price_per_sqft": 197.0,
+      "sales_with_price_per_sqft": 2353,
+      "median_days_on_market": 27.0,
+      "sales_with_days_on_market": 2278,
+      "share_without_list_date_pct": 15.9
+    },
+    {
+      "city": "Charlottesville",
+      "state": "VA",
+      "university": "University of Virginia",
+      "sales": 2759,
+      "median_price": 613000.0,
+      "median_price_per_sqft": 270.0,
+      "sales_with_price_per_sqft": 2758,
+      "median_days_on_market": 7,
+      "sales_with_days_on_market": 2049,
+      "share_without_list_date_pct": 25.2
+    },
+    {
+      "city": "Chapel Hill",
+      "state": "NC",
+      "university": "The University of North Carolina at Chapel Hill",
+      "sales": 2705,
+      "median_price": 734000.0,
+      "median_price_per_sqft": 277.0,
+      "sales_with_price_per_sqft": 2699,
+      "median_days_on_market": 10.0,
+      "sales_with_days_on_market": 2202,
+      "share_without_list_date_pct": 18.0
+    },
+    {
+      "city": "Champaign",
+      "state": "IL",
+      "university": "University of Illinois Urbana-Champaign",
+      "sales": 2285,
+      "median_price": 240000.0,
+      "median_price_per_sqft": 150.0,
+      "sales_with_price_per_sqft": 2275,
+      "median_days_on_market": 7.0,
+      "sales_with_days_on_market": 1784,
+      "share_without_list_date_pct": 21.1
+    },
+    {
+      "city": "Iowa City",
+      "state": "IA",
+      "university": "The University of Iowa",
+      "sales": 1909,
+      "median_price": 342000.0,
+      "median_price_per_sqft": 176.0,
+      "sales_with_price_per_sqft": 1907,
+      "median_days_on_market": 24.0,
+      "sales_with_days_on_market": 1248,
+      "share_without_list_date_pct": 9.4
+    },
+    {
+      "city": "West Lafayette",
+      "state": "IN",
+      "university": "Purdue University",
+      "sales": 1559,
+      "median_price": 379900.0,
+      "median_price_per_sqft": 178.0,
+      "sales_with_price_per_sqft": 1559,
+      "median_days_on_market": 11,
+      "sales_with_days_on_market": 1293,
+      "share_without_list_date_pct": 8.5
+    },
+    {
+      "city": "State College",
+      "state": "PA",
+      "university": "The Pennsylvania State University",
+      "sales": 1348,
+      "median_price": 430000.0,
+      "median_price_per_sqft": 208.0,
+      "sales_with_price_per_sqft": 1343,
+      "median_days_on_market": 8.0,
+      "sales_with_days_on_market": 908,
+      "share_without_list_date_pct": 31.7
+    },
+    {
+      "city": "Urbana",
+      "state": "IL",
+      "university": "University of Illinois Urbana-Champaign",
+      "sales": 1131,
+      "median_price": 229900.0,
+      "median_price_per_sqft": 144.0,
+      "sales_with_price_per_sqft": 1128,
+      "median_days_on_market": 8.0,
+      "sales_with_days_on_market": 872,
+      "share_without_list_date_pct": 22.0
+    },
+    {
+      "city": "Davis",
+      "state": "CA",
+      "university": "University of California, Davis",
+      "sales": 941,
+      "median_price": 889000.0,
+      "median_price_per_sqft": 493.0,
+      "sales_with_price_per_sqft": 941,
+      "median_days_on_market": 11.0,
+      "sales_with_days_on_market": 792,
+      "share_without_list_date_pct": 15.3
+    },
+    {
+      "city": "Middleton",
+      "state": "WI",
+      "university": "University of Wisconsin-Madison",
+      "sales": 645,
+      "median_price": 611000.0,
+      "median_price_per_sqft": 256.0,
+      "sales_with_price_per_sqft": 645,
+      "median_days_on_market": 8.0,
+      "sales_with_days_on_market": 560,
+      "share_without_list_date_pct": 13.0
+    },
+    {
+      "city": "Savoy",
+      "state": "IL",
+      "university": "University of Illinois Urbana-Champaign",
+      "sales": 247,
+      "median_price": 402700.0,
+      "median_price_per_sqft": 187.0,
+      "sales_with_price_per_sqft": 247,
+      "median_days_on_market": 10.0,
+      "sales_with_days_on_market": 212,
+      "share_without_list_date_pct": 13.4
+    },
+    {
+      "city": "Carrboro",
+      "state": "NC",
+      "university": "The University of North Carolina at Chapel Hill",
+      "sales": 205,
+      "median_price": 605000.0,
+      "median_price_per_sqft": 316.0,
+      "sales_with_price_per_sqft": 204,
+      "median_days_on_market": 7,
+      "sales_with_days_on_market": 149,
+      "share_without_list_date_pct": 26.8
+    },
+    {
+      "city": "Newberry",
+      "state": "FL",
+      "university": "University of Florida",
+      "sales": 152,
+      "median_price": 439995.0,
+      "median_price_per_sqft": 185.0,
+      "sales_with_price_per_sqft": 152,
+      "median_days_on_market": 87,
+      "sales_with_days_on_market": 133,
+      "share_without_list_date_pct": 10.5
+    },
+    {
+      "city": "Pittsboro",
+      "state": "NC",
+      "university": "The University of North Carolina at Chapel Hill",
+      "sales": 92,
+      "median_price": 876986.0,
+      "median_price_per_sqft": 302.0,
+      "sales_with_price_per_sqft": 89,
+      "median_days_on_market": 38,
+      "sales_with_days_on_market": 57,
+      "share_without_list_date_pct": 38.0
+    }
+  ]
+}
