@@ -45,4 +45,4 @@ College-town home sales dataset, version 1.0 (2026). University of Illinois-Delo
 
 ## Who did what
 
-_Replace this line with each member's name and what they did. If you worked alone, delete this section._
+Yifan Wang did this project alone. Yifan Wang chose the site's question, reviewed and approved every change, and merged each pull request. Claude Code wrote the code, the data script and the documentation under Yifan Wang's direction.
