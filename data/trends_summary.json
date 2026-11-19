@@ -1,0 +1,857 @@
+{
+  "source": "data/college_town_home_sales.csv",
+  "rules": {
+    "price_min": 10000,
+    "price_max": 5000000,
+    "price_per_sqft_needs_area_above": 0,
+    "days_on_market": "contract_date minus list_date, both present, not negative"
+  },
+  "min_sales_for_median": 30,
+  "years": [
+    "2023",
+    "2024",
+    "2025",
+    "2026"
+  ],
+  "bedroom_groups": {
+    "1": "1 bedroom",
+    "2": "2 bedrooms",
+    "3": "3 bedrooms",
+    "4": "4 bedrooms",
+    "5": "5 or more bedrooms"
+  },
+  "all_towns_by_year": {
+    "2023": {
+      "sales": 9583,
+      "median_price": 399000.0
+    },
+    "2024": {
+      "sales": 11632,
+      "median_price": 410000.0
+    },
+    "2025": {
+      "sales": 12278,
+      "median_price": 424900.0
+    },
+    "2026": {
+      "sales": 1872,
+      "median_price": 405000.0
+    }
+  },
+  "all_towns_by_bedrooms": {
+    "1": {
+      "sales": 200,
+      "median_price": 226500.0
+    },
+    "2": {
+      "sales": 3101,
+      "median_price": 253000.0
+    },
+    "3": {
+      "sales": 17028,
+      "median_price": 359900.0
+    },
+    "4": {
+      "sales": 11211,
+      "median_price": 500000.0
+    },
+    "5": {
+      "sales": 3831,
+      "median_price": 714900.0
+    }
+  },
+  "cities": [
+    {
+      "city": "Gainesville",
+      "state": "FL",
+      "by_year": {
+        "2023": {
+          "sales": 1439,
+          "median_price": 350000.0
+        },
+        "2024": {
+          "sales": 1800,
+          "median_price": 350000.0
+        },
+        "2025": {
+          "sales": 1913,
+          "median_price": 355000.0
+        },
+        "2026": {
+          "sales": 314,
+          "median_price": 334000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 15,
+          "median_price": null
+        },
+        "2": {
+          "sales": 570,
+          "median_price": 200554.0
+        },
+        "3": {
+          "sales": 2859,
+          "median_price": 315000.0
+        },
+        "4": {
+          "sales": 1675,
+          "median_price": 444900.0
+        },
+        "5": {
+          "sales": 348,
+          "median_price": 640000.0
+        }
+      }
+    },
+    {
+      "city": "Madison",
+      "state": "WI",
+      "by_year": {
+        "2023": {
+          "sales": 1356,
+          "median_price": 395000.0
+        },
+        "2024": {
+          "sales": 1674,
+          "median_price": 420000.0
+        },
+        "2025": {
+          "sales": 1769,
+          "median_price": 440000.0
+        },
+        "2026": {
+          "sales": 261,
+          "median_price": 450000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 34,
+          "median_price": 263750.0
+        },
+        "2": {
+          "sales": 548,
+          "median_price": 335950.0
+        },
+        "3": {
+          "sales": 3001,
+          "median_price": 406000.0
+        },
+        "4": {
+          "sales": 1194,
+          "median_price": 505500.0
+        },
+        "5": {
+          "sales": 284,
+          "median_price": 600000.0
+        }
+      }
+    },
+    {
+      "city": "Lafayette",
+      "state": "IN",
+      "by_year": {
+        "2023": {
+          "sales": 771,
+          "median_price": 240000.0
+        },
+        "2024": {
+          "sales": 1011,
+          "median_price": 263000.0
+        },
+        "2025": {
+          "sales": 1083,
+          "median_price": 270000.0
+        },
+        "2026": {
+          "sales": 188,
+          "median_price": 262450.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 16,
+          "median_price": null
+        },
+        "2": {
+          "sales": 306,
+          "median_price": 168750.0
+        },
+        "3": {
+          "sales": 1882,
+          "median_price": 250000.0
+        },
+        "4": {
+          "sales": 719,
+          "median_price": 334000.0
+        },
+        "5": {
+          "sales": 130,
+          "median_price": 443000.0
+        }
+      }
+    },
+    {
+      "city": "Ann Arbor",
+      "state": "MI",
+      "by_year": {
+        "2023": {
+          "sales": 915,
+          "median_price": 560000.0
+        },
+        "2024": {
+          "sales": 907,
+          "median_price": 571000.0
+        },
+        "2025": {
+          "sales": 1047,
+          "median_price": 585000.0
+        },
+        "2026": {
+          "sales": 138,
+          "median_price": 564000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 17,
+          "median_price": null
+        },
+        "2": {
+          "sales": 199,
+          "median_price": 388285.0
+        },
+        "3": {
+          "sales": 1234,
+          "median_price": 474995.0
+        },
+        "4": {
+          "sales": 1138,
+          "median_price": 638250.0
+        },
+        "5": {
+          "sales": 419,
+          "median_price": 865580.0
+        }
+      }
+    },
+    {
+      "city": "Athens",
+      "state": "GA",
+      "by_year": {
+        "2023": {
+          "sales": 718,
+          "median_price": 370000.0
+        },
+        "2024": {
+          "sales": 990,
+          "median_price": 370950.0
+        },
+        "2025": {
+          "sales": 948,
+          "median_price": 374950.0
+        },
+        "2026": {
+          "sales": 148,
+          "median_price": 356250.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 21,
+          "median_price": null
+        },
+        "2": {
+          "sales": 250,
+          "median_price": 275000.0
+        },
+        "3": {
+          "sales": 1314,
+          "median_price": 332750.0
+        },
+        "4": {
+          "sales": 945,
+          "median_price": 410000.0
+        },
+        "5": {
+          "sales": 275,
+          "median_price": 660000.0
+        }
+      }
+    },
+    {
+      "city": "Charlottesville",
+      "state": "VA",
+      "by_year": {
+        "2023": {
+          "sales": 722,
+          "median_price": 572650.0
+        },
+        "2024": {
+          "sales": 963,
+          "median_price": 614923.0
+        },
+        "2025": {
+          "sales": 951,
+          "median_price": 650000.0
+        },
+        "2026": {
+          "sales": 122,
+          "median_price": 631000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 6,
+          "median_price": null
+        },
+        "2": {
+          "sales": 187,
+          "median_price": 395000.0
+        },
+        "3": {
+          "sales": 1035,
+          "median_price": 525000.0
+        },
+        "4": {
+          "sales": 1078,
+          "median_price": 659500.0
+        },
+        "5": {
+          "sales": 453,
+          "median_price": 914647.0
+        }
+      }
+    },
+    {
+      "city": "Chapel Hill",
+      "state": "NC",
+      "by_year": {
+        "2023": {
+          "sales": 738,
+          "median_price": 725000.0
+        },
+        "2024": {
+          "sales": 879,
+          "median_price": 750000.0
+        },
+        "2025": {
+          "sales": 954,
+          "median_price": 725000.0
+        },
+        "2026": {
+          "sales": 134,
+          "median_price": 705000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 16,
+          "median_price": null
+        },
+        "2": {
+          "sales": 140,
+          "median_price": 395000.0
+        },
+        "3": {
+          "sales": 1035,
+          "median_price": 566500.0
+        },
+        "4": {
+          "sales": 976,
+          "median_price": 824500.0
+        },
+        "5": {
+          "sales": 538,
+          "median_price": 997328.0
+        }
+      }
+    },
+    {
+      "city": "Champaign",
+      "state": "IL",
+      "by_year": {
+        "2023": {
+          "sales": 675,
+          "median_price": 215000.0
+        },
+        "2024": {
+          "sales": 764,
+          "median_price": 247500.0
+        },
+        "2025": {
+          "sales": 717,
+          "median_price": 251000.0
+        },
+        "2026": {
+          "sales": 129,
+          "median_price": 242500.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 12,
+          "median_price": null
+        },
+        "2": {
+          "sales": 282,
+          "median_price": 150000.0
+        },
+        "3": {
+          "sales": 1106,
+          "median_price": 215000.0
+        },
+        "4": {
+          "sales": 628,
+          "median_price": 337000.0
+        },
+        "5": {
+          "sales": 257,
+          "median_price": 485000.0
+        }
+      }
+    },
+    {
+      "city": "Iowa City",
+      "state": "IA",
+      "by_year": {
+        "2023": {
+          "sales": 518,
+          "median_price": 320000.0
+        },
+        "2024": {
+          "sales": 590,
+          "median_price": 345000.0
+        },
+        "2025": {
+          "sales": 706,
+          "median_price": 355000.0
+        },
+        "2026": {
+          "sales": 94,
+          "median_price": 321695.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 19,
+          "median_price": null
+        },
+        "2": {
+          "sales": 179,
+          "median_price": 225000.0
+        },
+        "3": {
+          "sales": 707,
+          "median_price": 285000.0
+        },
+        "4": {
+          "sales": 636,
+          "median_price": 385000.0
+        },
+        "5": {
+          "sales": 368,
+          "median_price": 527000.0
+        }
+      }
+    },
+    {
+      "city": "West Lafayette",
+      "state": "IN",
+      "by_year": {
+        "2023": {
+          "sales": 408,
+          "median_price": 358750.0
+        },
+        "2024": {
+          "sales": 509,
+          "median_price": 375000.0
+        },
+        "2025": {
+          "sales": 552,
+          "median_price": 395000.0
+        },
+        "2026": {
+          "sales": 90,
+          "median_price": 398450.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 1,
+          "median_price": null
+        },
+        "2": {
+          "sales": 69,
+          "median_price": 359900.0
+        },
+        "3": {
+          "sales": 748,
+          "median_price": 322500.0
+        },
+        "4": {
+          "sales": 556,
+          "median_price": 420000.0
+        },
+        "5": {
+          "sales": 185,
+          "median_price": 585000.0
+        }
+      }
+    },
+    {
+      "city": "State College",
+      "state": "PA",
+      "by_year": {
+        "2023": {
+          "sales": 391,
+          "median_price": 411200.0
+        },
+        "2024": {
+          "sales": 432,
+          "median_price": 425000.0
+        },
+        "2025": {
+          "sales": 459,
+          "median_price": 439000.0
+        },
+        "2026": {
+          "sales": 66,
+          "median_price": 485000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 34,
+          "median_price": 228000.0
+        },
+        "2": {
+          "sales": 110,
+          "median_price": 324500.0
+        },
+        "3": {
+          "sales": 547,
+          "median_price": 379000.0
+        },
+        "4": {
+          "sales": 485,
+          "median_price": 518000.0
+        },
+        "5": {
+          "sales": 172,
+          "median_price": 619500.0
+        }
+      }
+    },
+    {
+      "city": "Urbana",
+      "state": "IL",
+      "by_year": {
+        "2023": {
+          "sales": 320,
+          "median_price": 220000.0
+        },
+        "2024": {
+          "sales": 367,
+          "median_price": 227500.0
+        },
+        "2025": {
+          "sales": 372,
+          "median_price": 244200.0
+        },
+        "2026": {
+          "sales": 71,
+          "median_price": 212000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 5,
+          "median_price": null
+        },
+        "2": {
+          "sales": 152,
+          "median_price": 135500.0
+        },
+        "3": {
+          "sales": 638,
+          "median_price": 225000.0
+        },
+        "4": {
+          "sales": 263,
+          "median_price": 270000.0
+        },
+        "5": {
+          "sales": 73,
+          "median_price": 386100.0
+        }
+      }
+    },
+    {
+      "city": "Davis",
+      "state": "CA",
+      "by_year": {
+        "2023": {
+          "sales": 255,
+          "median_price": 900000.0
+        },
+        "2024": {
+          "sales": 295,
+          "median_price": 900000.0
+        },
+        "2025": {
+          "sales": 347,
+          "median_price": 885000.0
+        },
+        "2026": {
+          "sales": 44,
+          "median_price": 798000.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 1,
+          "median_price": null
+        },
+        "2": {
+          "sales": 46,
+          "median_price": 660000.0
+        },
+        "3": {
+          "sales": 424,
+          "median_price": 780000.0
+        },
+        "4": {
+          "sales": 360,
+          "median_price": 1000000.0
+        },
+        "5": {
+          "sales": 110,
+          "median_price": 1400000.0
+        }
+      }
+    },
+    {
+      "city": "Middleton",
+      "state": "WI",
+      "by_year": {
+        "2023": {
+          "sales": 156,
+          "median_price": 597500.0
+        },
+        "2024": {
+          "sales": 219,
+          "median_price": 595000.0
+        },
+        "2025": {
+          "sales": 227,
+          "median_price": 642900.0
+        },
+        "2026": {
+          "sales": 43,
+          "median_price": 519900.0
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 2,
+          "median_price": null
+        },
+        "2": {
+          "sales": 27,
+          "median_price": null
+        },
+        "3": {
+          "sales": 277,
+          "median_price": 499900.0
+        },
+        "4": {
+          "sales": 237,
+          "median_price": 700000.0
+        },
+        "5": {
+          "sales": 102,
+          "median_price": 947450.0
+        }
+      }
+    },
+    {
+      "city": "Savoy",
+      "state": "IL",
+      "by_year": {
+        "2023": {
+          "sales": 68,
+          "median_price": 397450.0
+        },
+        "2024": {
+          "sales": 84,
+          "median_price": 386250.0
+        },
+        "2025": {
+          "sales": 90,
+          "median_price": 420000.0
+        },
+        "2026": {
+          "sales": 5,
+          "median_price": null
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 0,
+          "median_price": null
+        },
+        "2": {
+          "sales": 2,
+          "median_price": null
+        },
+        "3": {
+          "sales": 55,
+          "median_price": 318500.0
+        },
+        "4": {
+          "sales": 112,
+          "median_price": 400000.0
+        },
+        "5": {
+          "sales": 78,
+          "median_price": 470000.0
+        }
+      }
+    },
+    {
+      "city": "Carrboro",
+      "state": "NC",
+      "by_year": {
+        "2023": {
+          "sales": 61,
+          "median_price": 551000.0
+        },
+        "2024": {
+          "sales": 55,
+          "median_price": 625000.0
+        },
+        "2025": {
+          "sales": 75,
+          "median_price": 610000.0
+        },
+        "2026": {
+          "sales": 14,
+          "median_price": null
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 1,
+          "median_price": null
+        },
+        "2": {
+          "sales": 25,
+          "median_price": null
+        },
+        "3": {
+          "sales": 95,
+          "median_price": 550000.0
+        },
+        "4": {
+          "sales": 69,
+          "median_price": 686250.0
+        },
+        "5": {
+          "sales": 15,
+          "median_price": null
+        }
+      }
+    },
+    {
+      "city": "Newberry",
+      "state": "FL",
+      "by_year": {
+        "2023": {
+          "sales": 46,
+          "median_price": 447205.0
+        },
+        "2024": {
+          "sales": 62,
+          "median_price": 443870.0
+        },
+        "2025": {
+          "sales": 37,
+          "median_price": 437990.0
+        },
+        "2026": {
+          "sales": 7,
+          "median_price": null
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 0,
+          "median_price": null
+        },
+        "2": {
+          "sales": 1,
+          "median_price": null
+        },
+        "3": {
+          "sales": 32,
+          "median_price": 365000.0
+        },
+        "4": {
+          "sales": 98,
+          "median_price": 451430.0
+        },
+        "5": {
+          "sales": 21,
+          "median_price": null
+        }
+      }
+    },
+    {
+      "city": "Pittsboro",
+      "state": "NC",
+      "by_year": {
+        "2023": {
+          "sales": 26,
+          "median_price": null
+        },
+        "2024": {
+          "sales": 31,
+          "median_price": 885000.0
+        },
+        "2025": {
+          "sales": 31,
+          "median_price": 950000.0
+        },
+        "2026": {
+          "sales": 4,
+          "median_price": null
+        }
+      },
+      "by_bedrooms": {
+        "1": {
+          "sales": 0,
+          "median_price": null
+        },
+        "2": {
+          "sales": 8,
+          "median_price": null
+        },
+        "3": {
+          "sales": 39,
+          "median_price": 689000.0
+        },
+        "4": {
+          "sales": 42,
+          "median_price": 1231250.0
+        },
+        "5": {
+          "sales": 3,
+          "median_price": null
+        }
+      }
+    }
+  ]
+}

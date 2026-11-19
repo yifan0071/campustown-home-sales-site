@@ -3,6 +3,7 @@
 Reads data/college_town_home_sales.csv (read-only) and writes:
   data/city_summary.json      one entry per city, plus totals
   data/distance_summary.json  sales grouped by distance to campus
+  data/trends_summary.json    median price by sale year and by bedroom count
 
 Run from the repository root:
   python3 scripts/make_city_summary.py
@@ -28,9 +29,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "data" / "college_town_home_sales.csv"
 CITY_OUT = ROOT / "data" / "city_summary.json"
 DISTANCE_OUT = ROOT / "data" / "distance_summary.json"
+TRENDS_OUT = ROOT / "data" / "trends_summary.json"
 
 PRICE_MIN = 10_000
 PRICE_MAX = 5_000_000
+
+# A median is shown only for groups with at least this many sales
+MIN_SALES = 30
 
 # Distance bands in miles to campus. The last band is open-ended.
 DISTANCE_BANDS = [(0, 1), (1, 2), (2, 3), (3, 5), (5, 10), (10, None)]
@@ -175,14 +180,70 @@ def main():
         "bands": bands,
     }
 
+    # ---- Trends: median price by sale year and by bedroom count ----
+    def group_stats(group):
+        prices = [parse_number(r["sale_price"]) for r in group]
+        return {
+            "sales": len(group),
+            # Medians are shown only when the group has enough sales to be meaningful
+            "median_price": round_or_none(statistics.median(prices)) if len(group) >= MIN_SALES else None,
+        }
+
+    def bed_group(beds):
+        if beds is None:
+            return None
+        n = int(beds)
+        if n <= 0:
+            return None
+        return min(n, 5)
+
+    year_rows = {}      # (city, state) -> {year: [rows]}
+    bed_rows = {}       # (city, state) -> {bed_group: [rows]}
+    all_year = {}
+    all_bed = {}
+    for r in priced:
+        key = (r["city"], r["state"])
+        year = r["sale_date"][:4] if r["sale_date"] else None
+        if year:
+            year_rows.setdefault(key, {}).setdefault(year, []).append(r)
+            all_year.setdefault(year, []).append(r)
+        bg = bed_group(parse_number(r["beds"]))
+        if bg is not None:
+            bed_rows.setdefault(key, {}).setdefault(bg, []).append(r)
+            all_bed.setdefault(bg, []).append(r)
+
+    years = sorted(all_year)
+    bed_keys = [1, 2, 3, 4, 5]
+
+    trend_cities = []
+    for (city, state) in sorted(by_city, key=lambda k: len(by_city[k]), reverse=True):
+        trend_cities.append({
+            "city": city,
+            "state": state,
+            "by_year": {y: group_stats(year_rows.get((city, state), {}).get(y, [])) for y in years},
+            "by_bedrooms": {str(b): group_stats(bed_rows.get((city, state), {}).get(b, [])) for b in bed_keys},
+        })
+
+    trends_output = {
+        "source": "data/college_town_home_sales.csv",
+        "rules": city_output["rules"],
+        "min_sales_for_median": MIN_SALES,
+        "years": years,
+        "bedroom_groups": {"1": "1 bedroom", "2": "2 bedrooms", "3": "3 bedrooms", "4": "4 bedrooms", "5": "5 or more bedrooms"},
+        "all_towns_by_year": {y: group_stats(all_year[y]) for y in years},
+        "all_towns_by_bedrooms": {str(b): group_stats(all_bed.get(b, [])) for b in bed_keys},
+        "cities": trend_cities,
+    }
+
     CITY_OUT.write_text(json.dumps(city_output, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     DISTANCE_OUT.write_text(json.dumps(distance_output, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    TRENDS_OUT.write_text(json.dumps(trends_output, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"rows in source: {total_rows}")
     print(f"excluded by price rule: {excluded_price}")
     print(f"rows used: {len(priced)}")
     print(f"days-on-market negative (excluded): {negative_dom}")
-    print(f"wrote {CITY_OUT.relative_to(ROOT)} and {DISTANCE_OUT.relative_to(ROOT)}")
+    print(f"wrote {CITY_OUT.relative_to(ROOT)}, {DISTANCE_OUT.relative_to(ROOT)} and {TRENDS_OUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

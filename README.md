@@ -21,6 +21,9 @@ https://yifan0071.github.io/campustown-home-sales-site/
 - *Median days to contract*: `contract_date` minus `list_date`, for sales where both dates are present. This is the time from listing to signed contract, not to closing.
 - *Sales with no listing date*: the share of a town's sales where `list_date` is blank. Those sales are left out of the days-to-contract figure.
 - *Distance bands*: `miles_to_campus` (straight-line distance) grouped into bands. Medians are taken within each band.
+- *Median price by sale year*: sales grouped by the year in `sale_date`. The first year (2023) starts on 2023-03-27 and the last year (2026) ends on 2026-03-25, so both are partial years.
+- *Median price by bedrooms*: sales grouped by `beds`. Counts of 5 or more are grouped together. Records with 0 bedrooms are left out.
+- *Minimum sample for a median*: a town-year or town-bedroom group shows a median only with at least 30 sales. Smaller groups show a dash.
 
 **Known limits.**
 - Prices are from completed sales in the source, not verified against county records.
@@ -28,7 +31,7 @@ https://yifan0071.github.io/campustown-home-sales-site/
 - Towns with few sales (for example Pittsboro, Newberry and Carrboro) have wide swings, and the sample size is shown next to each figure.
 - Some addresses appear more than once because they are separate condo units. Records are counted by `listing_id`, so these units are not merged.
 
-**How the figures were made.** `scripts/make_city_summary.py` reads the CSV and writes `data/city_summary.json` and `data/distance_summary.json`. Run it from the repository root with `python3 scripts/make_city_summary.py`. It needs only Python 3. The page reads the two JSON files.
+**How the figures were made.** `scripts/make_city_summary.py` reads the CSV and writes `data/city_summary.json`, `data/distance_summary.json` and `data/trends_summary.json`. Run it from the repository root with `python3 scripts/make_city_summary.py`. It needs only Python 3. The page reads these three JSON files.
 
 ## Tools we used
 

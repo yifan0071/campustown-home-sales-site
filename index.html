@@ -51,6 +51,7 @@
     th { background: var(--head); font-weight: 600; }
     th:first-child, td:first-child { text-align: left; }
     .bar-cell { width: 40%; text-align: left; }
+    .all-row td { font-weight: 600; }
     .bar { height: 0.9rem; background: var(--bar); border-radius: 2px; min-width: 2px; }
     footer { margin-top: 3rem; font-size: 0.8rem; color: var(--muted); }
     ul.notes { padding-left: 1.2rem; font-size: 0.9rem; }
@@ -97,6 +98,24 @@
       </table>
     </div>
 
+    <h2>Median price by sale year</h2>
+    <p class="note" id="year-note">Medians by the year each sale closed. A dash means the town has fewer than 30 sales that year.</p>
+    <div class="table-wrap">
+      <table id="by-year">
+        <thead><tr></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2>Median price by bedrooms</h2>
+    <p class="note">Medians by number of bedrooms. A dash means the town has fewer than 30 sales with that bedroom count.</p>
+    <div class="table-wrap">
+      <table id="by-bedrooms">
+        <thead><tr></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
     <h2>How these numbers were made</h2>
     <ul class="notes" id="notes"></ul>
   </main>
@@ -109,6 +128,7 @@
     (function () {
       var DATA_CITIES = "data/city_summary.json";
       var DATA_DISTANCE = "data/distance_summary.json";
+      var DATA_TRENDS = "data/trends_summary.json";
 
       function money(n) {
         return n === null || n === undefined ? "–" : "$" + Math.round(n).toLocaleString("en-US");
@@ -166,7 +186,64 @@
         });
       }
 
-      function renderNotes(cityData) {
+      function fillHeader(table, labels) {
+        var tr = table.querySelector("thead tr");
+        tr.innerHTML = "";
+        labels.forEach(function (label) {
+          var th = document.createElement("th");
+          th.textContent = label;
+          tr.appendChild(th);
+        });
+      }
+
+      function renderTrends(data) {
+        var years = data.years;
+        var bedKeys = Object.keys(data.bedroom_groups);
+
+        var yearTable = document.getElementById("by-year");
+        fillHeader(yearTable, ["Town"].concat(years));
+        var yearBody = yearTable.querySelector("tbody");
+        data.cities.forEach(function (c) {
+          var tr = document.createElement("tr");
+          tr.appendChild(cell(c.city + ", " + c.state));
+          years.forEach(function (y) {
+            tr.appendChild(cell(money(c.by_year[y].median_price)));
+          });
+          yearBody.appendChild(tr);
+        });
+        var allYears = document.createElement("tr");
+        allYears.appendChild(cell("All towns", "all-row"));
+        years.forEach(function (y) {
+          allYears.appendChild(cell(money(data.all_towns_by_year[y].median_price), "all-row"));
+        });
+        yearBody.appendChild(allYears);
+
+        var bedTable = document.getElementById("by-bedrooms");
+        fillHeader(bedTable, ["Town"].concat(bedKeys.map(function (k) { return data.bedroom_groups[k]; })));
+        var bedBody = bedTable.querySelector("tbody");
+        data.cities.forEach(function (c) {
+          var tr = document.createElement("tr");
+          tr.appendChild(cell(c.city + ", " + c.state));
+          bedKeys.forEach(function (k) {
+            tr.appendChild(cell(money(c.by_bedrooms[k].median_price)));
+          });
+          bedBody.appendChild(tr);
+        });
+        var allBeds = document.createElement("tr");
+        allBeds.appendChild(cell("All towns", "all-row"));
+        bedKeys.forEach(function (k) {
+          allBeds.appendChild(cell(money(data.all_towns_by_bedrooms[k].median_price), "all-row"));
+        });
+        bedBody.appendChild(allBeds);
+
+        var yearNote = document.getElementById("year-note");
+        yearNote.textContent =
+          "Medians by the year each sale closed. " + years[0] + " and " + years[years.length - 1] +
+          " are partial years in the source data. A dash means the town has fewer than " +
+          data.min_sales_for_median + " sales that year.";
+      }
+
+      function renderNotes(cityData, trendData) {
         var r = cityData.rules;
         var t = cityData.totals;
         var range = cityData.sale_date_range;
@@ -180,6 +257,8 @@
           "Price per square foot uses only sales with a living area above zero.",
           "Days to contract is the time from the listing date to the contract date. Sales with a missing date are not counted in that figure.",
           "All headline figures are medians, which are less affected by a few very high or very low prices than averages would be.",
+          "Year and bedroom medians are shown only where a group has at least " + trendData.min_sales_for_median + " sales. Smaller groups show a dash.",
+          "The source covers sales from " + range[0] + " to " + range[1] + ", so the first and last calendar years are partial. Bedroom counts of 5 or more are grouped together.",
           "Figures come from the sale records as reported by the data source. They are not checked against county records, and the assessed value is not used as a price.",
           "This page describes past sales. It is not an appraisal or investment advice."
         ];
@@ -198,11 +277,12 @@
         });
       }
 
-      Promise.all([loadJSON(DATA_CITIES), loadJSON(DATA_DISTANCE)])
+      Promise.all([loadJSON(DATA_CITIES), loadJSON(DATA_DISTANCE), loadJSON(DATA_TRENDS)])
         .then(function (results) {
           renderCities(results[0]);
           renderDistance(results[1]);
-          renderNotes(results[0]);
+          renderTrends(results[2]);
+          renderNotes(results[0], results[2]);
         })
         .catch(function (err) {
           showError("range", "The data could not be loaded. " + err.message);
