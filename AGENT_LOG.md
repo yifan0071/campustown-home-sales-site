@@ -21,3 +21,13 @@ Copy this outline for each entry:
   - The agent's first draft of the page said sales outside the price range were "not plausible for a home." That overstated what the data shows, since a $5 million+ home can be real. I caught it on review and changed the wording to "treated as likely data errors or outliers."
   - The agent tried to start a local test server and run a browser test, and the command was blocked by the tool's permission check. The page has not been tested in a browser yet. I will check the live site after publishing.
   - The agent also wrote a log file to `/tmp` by mistake. It should have used the session scratchpad folder.
+
+## 2026-11-19: Price by sale year and by bedrooms
+
+- **Asked:** "1 就你推荐的这两个" (the two additions I proposed: median price by sale year, and median price by bedroom count) and "2 是的" (keep the page in English).
+- **Agent produced:** new outputs in `scripts/make_city_summary.py` written to `data/trends_summary.json`; two new tables in `index.html`; new data notes in the README and on the page.
+- **Checked or changed:**
+  - The three JSON outputs were regenerated. The city and distance files came out byte-for-byte unchanged.
+  - I cross-checked 3 towns (Gainesville, Pittsboro, State College) for each year and each bedroom group against the SQLite file with a read-only query. All matched.
+  - The agent first wrote an empty extra column header in the year table. I caught it on re-reading the page code and removed it.
+  - Not yet checked: the rendered page in a browser. I will ask you to check the live site after merging.
